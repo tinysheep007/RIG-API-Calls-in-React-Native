@@ -64,8 +64,11 @@ https://www.youtube.com/watch?v=8berLeTjKDM&t=94s
 
 ### Reference
 Guide for Method 1 :
+
 https://www.stackhawk.com/blog/react-cors-guide-what-it-is-and-how-to-enable-it/
+
 Links for CORS extension :
+
 https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino?hl=en
 
 
