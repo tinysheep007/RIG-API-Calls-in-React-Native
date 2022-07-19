@@ -45,5 +45,24 @@ http://localhost:8080/blahblah
 -In case you tried this step and the browser is still bugging you out with the problem, let's move to method 2!
 
 ## Method 2 
+-Another reason CORS error might happen is that our browser actually prevented this due to security considerartions of how outside source API talk to the front-end clients.
+-We can try add a google chrome extension to check if problem still exists!
+https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino?hl=en
+-Follow the installation instruction under this link below :
+https://www.youtube.com/watch?v=8berLeTjKDM&t=94s
+-Now, you can right click the bug icon and click "test CORS"
+-Adjust the preference as needed and if you see the image below, you can start testing your API!
+
+![get](https://user-images.githubusercontent.com/58338071/179833272-2cd48470-b634-4477-8eb0-456fd174e5fe.JPG)
+
+
+
+
+### Reference
+Guide for Method 1 :
+https://www.stackhawk.com/blog/react-cors-guide-what-it-is-and-how-to-enable-it/
+Links for CORS extension :
+https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino?hl=en
+
 
 
