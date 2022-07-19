@@ -5,6 +5,11 @@ import { Input } from 'react-native-elements';
 import { ActivityIndicator, ScrollView } from 'react-native';
 import { Image } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import j1 from './j1.jpg';
+import j2 from './j2.jpg';
+import path from 'path';
+import listReactFiles from 'list-react-files';
+
 
 let text = "change";
 
@@ -21,11 +26,15 @@ const styles = StyleSheet.create({
         width: 66,
         height: 58,
     },
+    a1 :{
+        width: 150,
+        height: 150,
+    }
 });
 
 // Example posting a local image file (Node.js only):
-const fs = require('fs');
-
+//const fs = require('fs');
+const fs = require('browserify-fs');
 const deepai = require('deepai'); // OR include deepai.min.js as a script tag in your HTML
 
 deepai.setApiKey('db75faa2-c245-49bb-81fd-8cc1a61517bf');
@@ -38,12 +47,19 @@ export default class API extends React.Component {
         this.state = {
             text: "chansadasdasdge", ct: 0, truth: false,
             items: [],
-            todos: []
+            todos: [],
+            foodName1: "apple",
+            foodName2: "orange",
         };
         this.changeText = this.changeText.bind(this);
         this.fetchData = this.fetchData.bind(this);
         this.fetchToDo = this.fetchToDo.bind(this);
         this.clearData = this.clearData.bind(this);
+        this.logRef = this.logRef.bind(this);
+        this.picture1 = React.createRef(null);
+        this.picture2 = React.createRef(null);
+        this.imageCompareAPIwithURL=this.imageCompareAPIwithURL.bind(this);
+        
     }
 
     changeText() {
@@ -68,18 +84,26 @@ export default class API extends React.Component {
             .then(json => this.setState({ todos: json, truth: true }));
     }
 
-    async fetchSimilar() {
-        fetch('https://image-compare.hcti.io/api?image_url=https://hcti.io/v1/image/28c381f2-ca52-43de-a984-3b17597a1a7b&other_image_url=https://hcti.io/v1/image/28c381f2-ca52-43de-a984-3b17597a1a7b')
+    async imageCompareAPIwithURL() {
+        let url1 = `https://source.unsplash.com/300x300/?${this.state.foodName1}`;
+        let url2 = `https://source.unsplash.com/300x300/?${this.state.foodName2}`;
+
+        //'https://image-compare.hcti.io/api?image_url=https://hcti.io/v1/image/28c381f2-ca52-43de-a984-3b17597a1a7b&other_image_url=https://hcti.io/v1/image/28c381f2-ca52-43de-a984-3b17597a1a7b'
+        fetch(`https://image-compare.hcti.io/api?image_url=${url1}&other_image_url=${url2}`)
             .then(res => res.json())
             .then(json => console.log(json));
     }
 
 
     async comparePhoto() {
+        //let loc1 = this.picture1.current.props.source;
+        //console.log(loc1);
+        //console.log(this.picture1.current.props.source + "check check");
         let resp = await deepai.callStandardApi("image-similarity", {
-            image1: document.getElementById('pic1'),
-            image2: document.getElementById('pic2'),
+            image1: fs.createReadStream("./src/j1.jpg"),//document.getElementById('pic1'),
+            image2: fs.createReadStream("./src/j2.jpg")//document.getElementById('pic2'),
         });
+        
         console.log(resp);
 
     }
@@ -89,10 +113,22 @@ export default class API extends React.Component {
         console.log(res);
     }
 
+    async logRef() {
+        console.log(path.dirname(__dirname));
+        console.log(this.picture1.current);
+        console.log(this.picture1.current.props.source);
 
+        console.log(this.picture2.current);
+        console.log(this.picture2.current.props.source);
+        //console.log(this.picture1);
+        //console.log(this.picture2);
+
+    }
 
 
     render() {
+        let url1 = `https://source.unsplash.com/300x300/?${this.state.foodName1}`;
+        let url2 = `https://source.unsplash.com/300x300/?${this.state.foodName2}`;
 
         let sampleClick = "";
         if (this.state.truth) {
@@ -105,12 +141,18 @@ export default class API extends React.Component {
             <ScrollView>
                 <SafeAreaProvider>
                     <View>
+                        <Image style={styles.a1} source={{uri:url1}}/>
+                        <Image style={styles.a1} source={{uri:url2}}/>
+                        
                         <Image
+
                             nativeID="pic1"
                             style={styles.tinyLogo}
                             source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
                         />
                         <Image
+                            ref={this.picture1}
+
                             className="poop"
                             nativeID="pic2"
                             id="pic2"
@@ -118,9 +160,10 @@ export default class API extends React.Component {
                             source={require('./j1.jpg')}
                         />
 
-                        <Text>Image v1</Text>
+                        <Text >Image v1</Text>
 
                         <Image
+                            ref={this.picture2}
                             style={styles.tinyLogo}
                             source={require('./j2.jpg')}
                         />
@@ -138,8 +181,9 @@ export default class API extends React.Component {
                         {this.state.todos.map((i, index) => {
                             return <Text key={index}>{index}.{i.title}</Text>
                         })}
-                        <Button title="image" onPress={this.fetchSimilar} />
-
+                        <Button title="imageCompareAPIwithURL works" onPress={this.imageCompareAPIwithURL} />
+                        <Button title="photo API for local file" onPress={this.comparePhoto} />
+                        <Button title="logRef" onPress={this.logRef} />
                     </View>
                 </SafeAreaProvider>
             </ScrollView>
