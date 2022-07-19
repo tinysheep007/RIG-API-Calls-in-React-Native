@@ -10,6 +10,7 @@ import j2 from './j2.jpg';
 import path from 'path';
 import listReactFiles from 'list-react-files';
 
+const axios = require('axios');
 
 let text = "change";
 
@@ -125,6 +126,11 @@ export default class API extends React.Component {
 
     }
 
+    async fakeAPI(){
+        let res = await axios.get('http://localhost:3000/test');
+        console.log(res);
+        console.log(res.data);
+    }
 
     render() {
         let url1 = `https://source.unsplash.com/300x300/?${this.state.foodName1}`;
@@ -184,6 +190,7 @@ export default class API extends React.Component {
                         <Button title="imageCompareAPIwithURL works" onPress={this.imageCompareAPIwithURL} />
                         <Button title="photo API for local file" onPress={this.comparePhoto} />
                         <Button title="logRef" onPress={this.logRef} />
+                        <Button title="Test local API" onPress={this.fakeAPI}/>
                     </View>
                 </SafeAreaProvider>
             </ScrollView>

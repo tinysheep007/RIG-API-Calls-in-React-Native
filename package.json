@@ -1,5 +1,5 @@
 {
-  "proxy": "https://image-compare.hcti.io",
+  "proxy": "http://localhost:3000/",
   "name": "api-testing",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
@@ -11,6 +11,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "browserify-fs": "^1.0.0",
     "deepai": "^1.0.21",
     "expo": "~45.0.0",
