@@ -22,7 +22,9 @@ After the code start running and you see a QR code or options to pick either ope
 ![eorr](https://user-images.githubusercontent.com/58338071/179830835-2f287ed5-2fc8-47c2-bbb5-24d955fd4097.JPG)
 
 # What should we do now?
+-Method 2 worked for me 
 
+## Method 1
 -If you are using react or react native, you can dodge this problem by adding the perfix of the website at package.json as a proxy.
 
 ![proxy1](https://user-images.githubusercontent.com/58338071/179831227-0459eb3f-3756-4429-98ab-bef654f8bd81.JPG)
@@ -38,4 +40,10 @@ http://localhost:8080/blahblah
 ...
 }
 ```
+
+-Notice that the /blahblah is not added to the end of our proxy, just the front prefix is good enough for our calls. 
+-In case you tried this step and the browser is still bugging you out with the problem, let's move to method 2!
+
+## Method 2 
+
 
