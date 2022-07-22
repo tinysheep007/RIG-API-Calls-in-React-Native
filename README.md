@@ -5,7 +5,10 @@
 -go to project directory
 
 -command line type 
-
+```
+npm i 
+```
+After all the depency is installed
 ```
 npm start
 ```
