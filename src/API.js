@@ -9,6 +9,8 @@ import j1 from './j1.jpg';
 import j2 from './j2.jpg';
 import path from 'path';
 import listReactFiles from 'list-react-files';
+import DocumentPicker from 'react-native-document-picker';
+
 
 const axios = require('axios');
 
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
         width: 66,
         height: 58,
     },
-    a1 :{
+    a1: {
         width: 150,
         height: 150,
     }
@@ -51,6 +53,7 @@ export default class API extends React.Component {
             todos: [],
             foodName1: "apple",
             foodName2: "orange",
+            fileResponse: ""
         };
         this.changeText = this.changeText.bind(this);
         this.fetchData = this.fetchData.bind(this);
@@ -59,8 +62,9 @@ export default class API extends React.Component {
         this.logRef = this.logRef.bind(this);
         this.picture1 = React.createRef(null);
         this.picture2 = React.createRef(null);
-        this.imageCompareAPIwithURL=this.imageCompareAPIwithURL.bind(this);
-        
+        this.imageCompareAPIwithURL = this.imageCompareAPIwithURL.bind(this);
+        this.handleDocumentSelection = this.handleDocumentSelection.bind(this);
+
     }
 
     changeText() {
@@ -104,7 +108,7 @@ export default class API extends React.Component {
             image1: fs.createReadStream("./src/j1.jpg"),//document.getElementById('pic1'),
             image2: fs.createReadStream("./src/j2.jpg")//document.getElementById('pic2'),
         });
-        
+
         console.log(resp);
 
     }
@@ -126,10 +130,26 @@ export default class API extends React.Component {
 
     }
 
-    async fakeAPI(){
+    async fakeAPI() {
         let res = await axios.get('http://localhost:3000/test');
         console.log(res);
         console.log(res.data);
+    }
+
+    async handleDocumentSelection () {
+        try {
+            console.log(DocumentPicker)
+            const response = await DocumentPicker.pick({
+                presentationStyle: 'fullScreen',
+            });
+            this.setState({
+                ...this.state,
+                fileResponse: response
+            })
+            //setFileResponse(response);
+        } catch (err) {
+            console.warn(err);
+        }
     }
 
     render() {
@@ -147,9 +167,9 @@ export default class API extends React.Component {
             <ScrollView>
                 <SafeAreaProvider>
                     <View>
-                        <Image style={styles.a1} source={{uri:url1}}/>
-                        <Image style={styles.a1} source={{uri:url2}}/>
-                        
+                        <Image style={styles.a1} source={{ uri: url1 }} />
+                        <Image style={styles.a1} source={{ uri: url2 }} />
+
                         <Image
 
                             nativeID="pic1"
@@ -190,8 +210,10 @@ export default class API extends React.Component {
                         <Button title="imageCompareAPIwithURL works" onPress={this.imageCompareAPIwithURL} />
                         <Button title="photo API for local file" onPress={this.comparePhoto} />
                         <Button title="logRef" onPress={this.logRef} />
-                        <Button title="Test local API" onPress={this.fakeAPI}/>
+                        <Button title="Test local API" onPress={this.fakeAPI} />
                     </View>
+
+                    <Button title="Select" onPress={this.handleDocumentSelection} />
                 </SafeAreaProvider>
             </ScrollView>
 
