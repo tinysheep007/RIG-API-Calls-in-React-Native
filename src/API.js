@@ -10,7 +10,7 @@ import j2 from './j2.jpg';
 import path from 'path';
 import listReactFiles from 'list-react-files';
 import DocumentPicker from 'react-native-document-picker';
-
+import imageToBase64 from 'image-to-base64/browser';
 
 const axios = require('axios');
 
@@ -136,7 +136,7 @@ export default class API extends React.Component {
         console.log(res.data);
     }
 
-    async handleDocumentSelection () {
+    async handleDocumentSelection() {
         try {
             console.log(DocumentPicker)
             const response = await DocumentPicker.pick({
@@ -150,6 +150,20 @@ export default class API extends React.Component {
         } catch (err) {
             console.warn(err);
         }
+    }
+
+    photoToBase64() {
+        imageToBase64("./j1.jpg") // Path to the image
+            .then(
+                (response) => {
+                    console.log(response); // "cGF0aC90by9maWxlLmpwZw=="
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log(error); // Logs an error if there was one
+                }
+            )
     }
 
     render() {
@@ -214,6 +228,10 @@ export default class API extends React.Component {
                     </View>
 
                     <Button title="Select" onPress={this.handleDocumentSelection} />
+
+                    <Button title="Convert to Digits" onPress={this.photoToBase64}/>
+
+                    
                 </SafeAreaProvider>
             </ScrollView>
 
