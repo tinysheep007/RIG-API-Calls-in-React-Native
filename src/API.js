@@ -10,7 +10,7 @@ import j2 from './j2.jpg';
 import path from 'path';
 import listReactFiles from 'list-react-files';
 import DocumentPicker from 'react-native-document-picker';
-import imageToBase64 from 'image-to-base64/browser';
+
 
 const axios = require('axios');
 
@@ -19,7 +19,10 @@ let text = "change";
 const styles = StyleSheet.create({
     container: {
         paddingTop: 50,
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     tinyLogo: {
         width: 50,
@@ -34,6 +37,7 @@ const styles = StyleSheet.create({
         height: 150,
     }
 });
+
 
 // Example posting a local image file (Node.js only):
 //const fs = require('fs');
@@ -152,19 +156,6 @@ export default class API extends React.Component {
         }
     }
 
-    photoToBase64() {
-        imageToBase64("./j1.jpg") // Path to the image
-            .then(
-                (response) => {
-                    console.log(response); // "cGF0aC90by9maWxlLmpwZw=="
-                }
-            )
-            .catch(
-                (error) => {
-                    console.log(error); // Logs an error if there was one
-                }
-            )
-    }
 
     render() {
         let url1 = `https://source.unsplash.com/300x300/?${this.state.foodName1}`;
@@ -178,9 +169,9 @@ export default class API extends React.Component {
             sampleClick = <Text>Not loaded with information</Text>;
         }
         return (
-            <ScrollView>
+            <ScrollView >
                 <SafeAreaProvider>
-                    <View>
+                    <View style={styles.container}>
                         <Image style={styles.a1} source={{ uri: url1 }} />
                         <Image style={styles.a1} source={{ uri: url2 }} />
 
@@ -210,7 +201,7 @@ export default class API extends React.Component {
                         <Text>Image v2</Text>
                         <Text>Receving APIs</Text>
                         <Text>Response: {this.state.text} {this.state.ct} {this.state.truth + ""}</Text>
-                        <Button title="CLick to get API" onPress={this.changeText} />
+                        
                         <Button color="#841584" title="clear" onPress={this.clearData} />
                         <Button title="Get Names" onPress={this.fetchData} />
                         {sampleClick}
@@ -225,13 +216,16 @@ export default class API extends React.Component {
                         <Button title="photo API for local file" onPress={this.comparePhoto} />
                         <Button title="logRef" onPress={this.logRef} />
                         <Button title="Test local API" onPress={this.fakeAPI} />
+
+                        <Button title="Select" onPress={this.handleDocumentSelection} />
+
+                        
+
                     </View>
 
-                    <Button title="Select" onPress={this.handleDocumentSelection} />
 
-                    <Button title="Convert to Digits" onPress={this.photoToBase64}/>
 
-                    
+
                 </SafeAreaProvider>
             </ScrollView>
 

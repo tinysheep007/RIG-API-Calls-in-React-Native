@@ -11,6 +11,8 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.11",
+    "@react-navigation/native-stack": "^6.7.0",
     "axios": "^0.27.2",
     "browserify-fs": "^1.0.0",
     "deepai": "^1.0.21",
@@ -26,6 +28,7 @@
     "react-native-document-picker": "^8.1.1",
     "react-native-elements": "^3.4.2",
     "react-native-safe-area-context": "4.2.4",
+    "react-native-screens": "~3.11.1",
     "react-native-web": "0.17.7"
   },
   "devDependencies": {
