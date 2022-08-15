@@ -117,6 +117,8 @@ export default class API extends React.Component {
 
     }
 
+  
+
     async test() {
         let res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
         console.log(res);
@@ -219,7 +221,7 @@ export default class API extends React.Component {
 
                         <Button title="Select" onPress={this.handleDocumentSelection} />
 
-                        
+                        {/* <Button title="get gay" onPress={this.getGay}/> */}
 
                     </View>
 
