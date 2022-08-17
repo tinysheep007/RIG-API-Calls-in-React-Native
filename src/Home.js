@@ -8,13 +8,29 @@ export default function Home({ navigation }) {
                 This is the home Page
             </Text>
 
-            <Pressable style={styles.button} onPress={() => navigation.navigate('API')}>
-                <Text style={styles.buttonText}>Go Test API</Text>
-            </Pressable>
+            <Text style={styles.secondText}>
+                This is the test ground for experimenting API calls in React Natives!
+            </Text>
 
-            <Pressable style={styles.button} onPress={() => navigation.navigate("Base64Convert")}>
-                <Text  style={styles.buttonText}>Go convert photo into base64</Text>
-            </Pressable>
+            <View style={styles.buttonGroup}>
+                <Pressable style={styles.button} onPress={() => navigation.navigate('API')}>
+                    <Text style={styles.buttonText}>Go Test API</Text>
+                </Pressable>
+
+                <Pressable style={styles.button} onPress={() => navigation.navigate("Base64Convert")}>
+                    <Text style={styles.buttonText}>Go convert photo into base64</Text>
+                </Pressable>
+            </View>
+
+            <View style={{margin:"20px",alignContent:"center",}}>
+                <Text style={{margin:"auto"}}>
+                    Where's the code?
+                </Text>
+                <Text style={{margin:"10px"}}>
+                    https://github.com/tinysheep007/RIG-API-Calls-in-React-Native
+                </Text>
+            </View>
+
 
         </View>
     )
@@ -29,18 +45,27 @@ const styles = StyleSheet.create({
     },
     homeText: {
         fontSize: "55px",
-        fontWeight: "bold",
+        fontFamily: "roboto",
         margin: "30px"
     },
     button: {
         margin: "10px",
-        backgroundColor:"lightgreen",
-        padding:"10px",
-        border:"2px solid black" ,
+        backgroundColor: "lightgreen",
+        padding: "10px",
+        border: "2px solid black",
         boxShadow: "10px 5px 5px green"
     },
-    buttonText : {
-        fontFamily:"roboto",
-        fontStyle:"italic"
+    buttonText: {
+        fontSize:"25px",
+        fontFamily: "roboto",
+        fontStyle: "italic"
+    },
+    secondText: {
+        fontSize: "20px",
+        marginBottom: "20px",
+        color: "#545c56"
+    },
+    buttonGroup: {
+        flexDirection:"row"
     }
 });
