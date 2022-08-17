@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { Input } from 'react-native-elements';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator, ScrollView, TextInput } from 'react-native';
 import { Image } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import j1 from './j1.jpg';
@@ -25,8 +25,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     tinyLogo: {
-        width: 50,
-        height: 50,
+        width: 120,
+        height: 120,
+        margin: "auto"
     },
     logo: {
         width: 66,
@@ -35,6 +36,24 @@ const styles = StyleSheet.create({
     a1: {
         width: 150,
         height: 150,
+        border: "3px solid red",
+        margin: "3px"
+    },
+    imginfo: {
+        border: "2px solid black",
+        marginBottom: "5px",
+        marginTop: "2px",
+        padding: "5px"
+    },
+    otherinfo: {
+        border: "2px solid black",
+        padding: "5px"
+    },
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
     }
 });
 
@@ -57,7 +76,16 @@ export default class API extends React.Component {
             todos: [],
             foodName1: "apple",
             foodName2: "orange",
-            fileResponse: ""
+            fileResponse: "",
+            img1Width: "",
+            img1Height: "",
+            img1Type: "",
+            img2Width: "",
+            img2Heightl: "",
+            img2Type: "",
+            percent_diff: "",
+            pixel_diff: "",
+            rendered: false,
         };
         this.changeText = this.changeText.bind(this);
         this.fetchData = this.fetchData.bind(this);
@@ -68,6 +96,8 @@ export default class API extends React.Component {
         this.picture2 = React.createRef(null);
         this.imageCompareAPIwithURL = this.imageCompareAPIwithURL.bind(this);
         this.handleDocumentSelection = this.handleDocumentSelection.bind(this);
+        this.changeInputFood1 = this.changeInputFood1.bind(this);
+        this.changeInputFood2 = this.changeInputFood2.bind(this);
 
     }
 
@@ -100,7 +130,20 @@ export default class API extends React.Component {
         //'https://image-compare.hcti.io/api?image_url=https://hcti.io/v1/image/28c381f2-ca52-43de-a984-3b17597a1a7b&other_image_url=https://hcti.io/v1/image/28c381f2-ca52-43de-a984-3b17597a1a7b'
         fetch(`https://image-compare.hcti.io/api?image_url=${url1}&other_image_url=${url2}`)
             .then(res => res.json())
-            .then(json => console.log(json));
+            .then(json => {
+                console.log(json)
+                this.setState({
+                    img1Width: json.image.width,
+                    img1Height: json.image.height,
+                    img1Type: json.image.type,
+                    img2Width: json.other_image.width,
+                    img2Height: json.other_image.height,
+                    img2Type: json.other_image.type,
+                    percent_diff: json.percent_difference,
+                    pixel_diff: json.pixel_difference,
+                    rendered: true
+                })
+            });
     }
 
 
@@ -117,7 +160,7 @@ export default class API extends React.Component {
 
     }
 
-  
+
 
     async test() {
         let res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
@@ -158,6 +201,13 @@ export default class API extends React.Component {
         }
     }
 
+    changeInputFood1(e) {
+        this.setState({foodName1: e.target.value});
+    }
+
+    changeInputFood2(e) {
+        this.setState({foodName2: e.target.value});
+    }
 
     render() {
         let url1 = `https://source.unsplash.com/300x300/?${this.state.foodName1}`;
@@ -174,52 +224,148 @@ export default class API extends React.Component {
             <ScrollView >
                 <SafeAreaProvider>
                     <View style={styles.container}>
-                        <Image style={styles.a1} source={{ uri: url1 }} />
-                        <Image style={styles.a1} source={{ uri: url2 }} />
+                        <Text style={{ fontSize: "55px", fontWeight: "bold" }}>Receving APIs</Text>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <View>
+                                <Text style={{ margin: "auto", fontSize: "30px", fontFamily: "new roman" }}>{this.state.foodName1}</Text>
+                                <Image style={styles.a1} source={{ uri: url1 }} />
+                            </View>
 
-                        <Image
+                            <View>
+                                <Text style={{ margin: "auto", fontSize: "30px", fontFamily: "new roman" }}>{this.state.foodName2}</Text>
+                                <Image style={styles.a1} source={{ uri: url2 }} />
+                            </View>
+
+                        </View>
+
+                        {/* <Image
 
                             nativeID="pic1"
                             style={styles.tinyLogo}
                             source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-                        />
-                        <Image
-                            ref={this.picture1}
+                        /> */}
 
-                            className="poop"
-                            nativeID="pic2"
-                            id="pic2"
-                            style={styles.tinyLogo}
-                            source={require('./j1.jpg')}
-                        />
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <View>
+                                <Image
+                                    ref={this.picture1}
 
-                        <Text >Image v1</Text>
+                                    className="poop"
+                                    nativeID="pic2"
+                                    id="pic2"
+                                    style={styles.tinyLogo}
+                                    source={require('./j1.jpg')}
+                                />
+                                <Text style={{ margin: "auto" }} >IMG v1</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    onChange={this.changeInputFood1}
+                                    value={this.state.foodName1}
+                                />
+                            </View>
 
-                        <Image
-                            ref={this.picture2}
-                            style={styles.tinyLogo}
-                            source={require('./j2.jpg')}
-                        />
-                        <Text>Image v2</Text>
-                        <Text>Receving APIs</Text>
-                        <Text>Response: {this.state.text} {this.state.ct} {this.state.truth + ""}</Text>
-                        
-                        <Button color="#841584" title="clear" onPress={this.clearData} />
-                        <Button title="Get Names" onPress={this.fetchData} />
+                            <View>
+                                <Image
+                                    ref={this.picture2}
+                                    style={styles.tinyLogo}
+                                    source={require('./j2.jpg')}
+                                />
+                                <Text style={{ margin: "auto" }}>IMG v2</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    onChange={this.changeInputFood2}
+                                    value={this.state.foodName2}
+                                />
+                            </View>
+                        </View>
+
+                        <View style={{ margin: "10px", boxShadow: "10px 5px 5px #611506" }}>
+                            <Button color="#c91c1c" title="clear" onPress={this.clearData} />
+                        </View>
+
+                        <View>
+                            <Button color="#c9421c" title="Get Names" onPress={this.fetchData} />
+                        </View>
+
+
                         {sampleClick}
+
                         {this.state.items.map((i, index) => {
                             return <Text key={index}>{index}, {i.name}</Text>
                         })}
-                        <Button color="green" title='fetch ToDO' onPress={this.fetchToDo} />
+
+                        <View style={{ margin: "5px", boxShadow: "10px 5px 5px #614706", borderRadius: "30%", marginBottom: "10px" }}>
+                            <Button color="#c9871c" title='fetch ToDO' onPress={this.fetchToDo} />
+                        </View>
+
+
                         {this.state.todos.map((i, index) => {
                             return <Text key={index}>{index}.{i.title}</Text>
                         })}
-                        <Button title="imageCompareAPIwithURL works" onPress={this.imageCompareAPIwithURL} />
-                        <Button title="photo API for local file" onPress={this.comparePhoto} />
-                        <Button title="logRef" onPress={this.logRef} />
-                        <Button title="Test local API" onPress={this.fakeAPI} />
 
-                        <Button title="Select" onPress={this.handleDocumentSelection} />
+                        <View style={{ borderRadius: "30%", marginBottom: "10px" }}>
+                            <Button color="#c9b21c" title="Image Compare API with URL / Check Results in console" onPress={this.imageCompareAPIwithURL} />
+                        </View>
+
+                        {this.state.rendered ? (<View>
+                            <View className="img1info" style={styles.imginfo}>
+                                <Text>
+                                    information of image 1
+                                </Text>
+                                <Text>
+                                    Width: {this.state.img1Width}
+                                </Text>
+                                <Text>
+                                    Height: {this.state.img1Height}
+                                </Text>
+                                <Text>
+                                    Type: {this.state.img1Type}
+                                </Text>
+                            </View>
+
+                            <View className="img2info" style={styles.imginfo}>
+                                <Text>information of image 2</Text>
+                                <Text>
+                                    Width: {this.state.img2Width}
+                                </Text>
+                                <Text>
+                                    Height: {this.state.img2Height}
+                                </Text>
+                                <Text>
+                                    Type: {this.state.img2Type}
+                                </Text>
+                            </View>
+
+                            <View className="otherinfo" style={styles.otherinfo}>
+                                <Text>
+                                    Percent Difference: {this.state.percent_diff}
+                                </Text>
+
+                                <Text>
+                                    Pixel Difference: {this.state.pixel_diff}
+                                </Text>
+                            </View>
+                        </View>)
+                            : (<View style={styles.imginfo}><Text>No Data</Text></View>)
+                        }
+
+                        <View style={{ margin: "8px", boxShadow: "10px 5px 5px #eb7734", borderRadius: "30%" }}>
+                            <Button color="red" title="Doesn't Work: DeepAI API for comparing local file" onPress={this.comparePhoto} />
+                        </View>
+
+
+                        <View>
+                            <Button color="blue" title="logRef" onPress={this.logRef} />
+                        </View>
+
+                        <View style={{ margin: "8px", borderRadius: "30%", boxShadow: "10px 5px 5px #3474eb", }}>
+                            <Button title="Test local API" onPress={this.fakeAPI} />
+                        </View>
+
+                        <View>
+                            <Button color="orange" title="Check Status of Document Select" onPress={this.handleDocumentSelection} />
+                        </View>
+
 
                         {/* <Button title="get gay" onPress={this.getGay}/> */}
 

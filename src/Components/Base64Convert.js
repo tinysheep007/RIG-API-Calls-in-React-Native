@@ -70,30 +70,30 @@ export default function Base64Convert() {
     return (
         <View style={styles.container}>
             <View>
-                <Text>Pic 1</Text>
+                <Text style={{ margin: "auto", fontSize: "medium" }}>⬇ Pic 1 ⬇</Text>
                 <Image
                     style={styles.a1}
                     source={require('../j1.jpg')}
                 />
             </View>
             <View>
-                <Text>Pic 2</Text>
+                <Text style={{ margin: "auto", fontSize: "medium" }}>⬇ Pic 2 ⬇</Text>
                 <Image
                     style={styles.a1}
                     source={require('../j2.jpg')}
                 />
             </View>
 
-            <Button title="Convert to Digits" onPress={photoToBase64} />
+            <Button color="green" title="Convert to Digits" onPress={photoToBase64} />
             <Text style={styles.resultBox}>
-                <Text>PIC 1 : </Text>
+                <Text >PIC 1 : </Text>
                 {isLoaded ? base64 : "Results are not loaded"}
             </Text>
             <Text style={styles.resultBox}>
-                <Text>PIC 2 : </Text>
+                <Text >PIC 2 : </Text>
                 {isLoaded ? pic2base64 : "Results are not loaded"}
             </Text>
-            <Button title="SENT TO API" onPress={submitToAPI}/>
+            <Button title="SENT TO API" onPress={submitToAPI} />
             <View>
                 <Text>
                     Results :
@@ -116,10 +116,18 @@ const styles = StyleSheet.create({
     a1: {
         width: 150,
         height: 150,
+        border: "5px solid red",
+        borderRadius: "10%",
+        marginBottom : "10px"
+
     },
     resultBox: {
         width: 450,
         height: 400,
-        overflow: "auto"
+        overflow: "auto",
+        
+        border:"3px solid black",
+        margin:"5px"
+        
     }
 });
